@@ -19,7 +19,7 @@ you need to pass in an object that should contain the following properties:
 
 ### desiredCapabilities
 Defines the capabilities you want to run in your Selenium session. See the [Selenium documentation](https://code.google.com/p/selenium/wiki/DesiredCapabilities)
-for a list of the available `capabilities`. Also useful is Sauce Labs [Automated Test Configurator](https://docs.saucelabs.com/reference/platforms-configurator/#/)
+for a list of the available `capabilities`. Also useful is Sauce Labs [Automated Test Configurator](https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/)
 that helps you to create this object by clicking together your desired capabilities.
 
 Refer to the [cloud service docs](/guide/testrunner/cloudservices.html) for further
@@ -31,12 +31,21 @@ Default: `{ browserName: 'firefox' }`<br>
 **Example:**
 
 ```js
-browserName: 'chrome',  // options: firefox, chrome, opera, safari
-version: '27.0',        // browser version
-platform: 'XP',         // OS platform
-tags: ['tag1','tag2'],  // specify some tags (e.g. if you use Sauce Labs)
-name: 'my test'         // set name for test (e.g. if you use Sauce Labs)
+browserName: 'chrome',    // options: `firefox`, `chrome`, `opera`, `safari`
+version: '27.0',          // browser version
+platform: 'XP',           // OS platform
+tags: ['tag1','tag2'],    // specify some tags (e.g. if you use Sauce Labs)
+name: 'my test'           // set name for test (e.g. if you use Sauce Labs)
+pageLoadStrategy: 'eager' // strategy for page load
 ```
+
+**Details:**
+
+`pageLoadStrategy` is implemented in Selenium [2.46.0](https://github.com/SeleniumHQ/selenium/blob/master/java/CHANGELOG#L205) and apparently it is only working on Firefox. The valid values are:
+
+ `normal` - waits for `document.readyState` to be 'complete'. This value is used by default.
+ `eager`  - will abort the wait when `document.readyState` is 'interactive' instead of waiting for 'complete'.
+ `none`   - will abort the wait immediately, without waiting for any of the page to load.
 
 ### logLevel
 Level of logging verbosity.
@@ -93,6 +102,12 @@ Default timeout for all waitForXXX commands.
 
 Type: `Number`<br>
 Default: *500*
+
+### waitforInterval
+Default interval between checks in waitForXXX commands.
+
+Type: `Number`<br>
+Default: *250*
 
 ## Setup [Babel](https://babeljs.io/) to write tests using next generation JavaScript
 
